@@ -1,7 +1,7 @@
 import { FormControl, FormLabel, Input, Text, Button, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const FileUpload = ({ register, error, setValue, name }) => {
+const FileUpload = ({ register, error, setValue, name, resetTrigger  }) => {
     const [fileName, setFileName] = useState("");
 
     const handleFileChange = (event) => {
@@ -9,6 +9,10 @@ const FileUpload = ({ register, error, setValue, name }) => {
         setFileName(file ? file.name : "");
         setValue(name, file);
     };
+
+    useEffect(() => {
+        setFileName("");
+    }, [resetTrigger]);
 
     return (
         <FormControl marginBottom={4} isInvalid={error}>

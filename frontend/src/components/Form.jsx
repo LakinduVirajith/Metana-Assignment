@@ -6,8 +6,11 @@ import InputField from "./InputField";
 import FileUpload from "./FileUpload";
 import { validationSchema } from "../validations/formSchema";
 import axios from "axios";
+import { useState } from "react";
 
 const Form = () => {
+    const [resetTrigger, setResetTrigger] = useState(false);
+
     const {
         register,
         handleSubmit,
@@ -21,16 +24,17 @@ const Form = () => {
         formData.append("name", data.name);
         formData.append("email", data.email);
         formData.append("phoneNumber", data.phoneNumber);
-        formData.append("cv", data.cv[0]);
+        formData.append("cv", data.cv);
         
         try {
-            const response = await axios.post("http://localhost:5000/submit", formData, {
+            const response = await axios.post("http://localhost:5000/api/v1/forms/submit", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 
             if (response.data.success) {
                 toast.success("Form submitted successfully!");
                 reset();
+                setResetTrigger((prev) => !prev);
             }
         } catch (error) {
             toast.error("Submission failed. Please try again.");
@@ -48,7 +52,7 @@ const Form = () => {
             <InputField type="text" placeholder="Name" register={register("name")} error={errors.name} />
             <InputField type="email" placeholder="Email" register={register("email")} error={errors.email} />
             <InputField type="number" placeholder="Phone Number" register={register("phoneNumber")} error={errors.phoneNumber} />
-            <FileUpload register={register("cv")} error={errors.cv} setValue={setValue} name="cv" />
+            <FileUpload register={register("cv")} error={errors.cv} setValue={setValue} name="cv" resetTrigger={resetTrigger} />
 
             <Button colorScheme="blue" size="md" width="full" type="submit">
                 Submit
