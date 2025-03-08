@@ -4,6 +4,7 @@ import { parseDocx } from "../utils/parseDocx.js";
 import { saveDataToSheet } from "../config/sheetsConfig.js";
 import { sendFollowUpEmail } from "./emailService.js";
 import axios from "axios";
+import moment from "moment-timezone";
 import cron from "node-cron";
 
 const WEBHOOK_URL = "https://rnd-assignment.automations-3d6.workers.dev/";
@@ -81,12 +82,13 @@ export const processCVSubmission = async (name, email, phoneNumber, timeZone, cv
 
         // STEP 6: SCHEDULE EMAIL IN 24 HOURS
         const delayInMilliseconds = 24 * 60 * 60 * 1000;
-        const nextDay = new Date(Date.now() + delayInMilliseconds);
+        const currentTimeInTimeZone = moment.tz(timeZone);
+        const nextDay = currentTimeInTimeZone.add(delayInMilliseconds, "milliseconds");
 
         console.log(`Scheduled follow-up email for ${email} at ${nextDay}`);
         try {
             cron.schedule(
-                `${nextDay.getMinutes()} ${nextDay.getHours()} * * *`,
+                `${nextDay.minutes()} ${nextDay.hours()} * * *`,
                 () => {
                     sendFollowUpEmail(email, name);
                     job.stop();
