@@ -28,14 +28,13 @@ export const saveDataToSheet = async (data) => {
             });
         }
 
-        const response = await sheets.spreadsheets.values.append({
+        await sheets.spreadsheets.values.append({
             spreadsheetId,
             range,
             valueInputOption: "USER_ENTERED",
             requestBody: { values },
         });
 
-        console.log("Data saved to Google Sheet:", response.data);
         return true;
     } catch (error) {
         console.error("Error saving data to Google Sheet:", error);

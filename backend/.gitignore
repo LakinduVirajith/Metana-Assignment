@@ -5,13 +5,13 @@ npm-shrinkwrap.json
 *.log
 *.gz
 
-# Coveralls
+# coveralls
 .nyc_output
 coverage
 
-# Benchmarking
+# benchmarking
 benchmarks/graphs
 
-# Environment
+# environment
 .env
 google-service-account.json
