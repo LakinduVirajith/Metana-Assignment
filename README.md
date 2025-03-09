@@ -66,7 +66,7 @@
 | SendGrid (Emails)     | $89.95/month             |
 | Vercel (Frontend)     | $20/month (Pro plan for high traffic) |
 | Render (Backend)      | $25/month (Standard instance) |
-| **Total**             | **~$144.5/month**        |
+| **Total**             | **~$144.95/month**        |
 
 ---
 
