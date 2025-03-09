@@ -66,7 +66,7 @@ export const processCVSubmission = async (name, email, phoneNumber, timeZone, cv
             metadata: {
                 applicant_name: name,
                 email: email,
-                status: "testing",
+                status: "prod",
                 cv_processed: true,
                 processed_timestamp: new Date().toISOString(),
             },
