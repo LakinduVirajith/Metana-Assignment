@@ -7,6 +7,8 @@ const drive = google.drive({ version: "v3", auth });
 export const uploadFileToDrive = async (file) => {
     const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID;
     const bufferStream = new Readable();
+    bufferStream.push(file.buffer);
+    bufferStream.push(null);
 
     try {
         const response = await drive.files.create({
@@ -16,7 +18,7 @@ export const uploadFileToDrive = async (file) => {
             },
             media: {
                 mimeType: file.mimetype,
-                body: bufferStream.push(file.buffer),
+                body: bufferStream,
             },
         });
 
